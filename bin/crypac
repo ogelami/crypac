@@ -26,4 +26,6 @@ for key, currency in crypac.currencies_s.items():
 
 arguments = parser.parse_args()
 
-crypac.start(arguments)
+crypac.arguments = arguments
+crypac.argument_parser = parser
+crypac.start()

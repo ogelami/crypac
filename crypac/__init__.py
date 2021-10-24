@@ -2,21 +2,24 @@
 
 import argparse, sys, copy, binascii, struct, crypac.structure
 
-verbose = False
+#verbose = False
+arguments = False
+argument_parser = False
 
 def printe(*text):
-	global verbose
+	global arguments
 
-	if verbose:
+	if arguments.verbose:
 		print(*text, file = sys.stderr)
 
 currencies_s = { x.symbol : x for x in crypac.structure.currencies }
 currencies_i = { x.identifier : x for x in crypac.structure.currencies }
 
-def start(arguments):
-	global verbose
+def start():
+	global arguments, argument_parser
 
 	verbose = arguments.verbose
+	output = bytearray()
 
 	if arguments.mode == 'pack':
 		end = []
@@ -86,6 +89,7 @@ def start(arguments):
 		if arguments.mode == 'encrypt':
 			if arguments.generate_iv:
 				iv = Random.new().read(AES.block_size)
+				output += iv
 				sys.stdout.buffer.write(iv)
 
 			printe('choosen iv', binascii.hexlify(iv))
@@ -107,6 +111,7 @@ def start(arguments):
 			printe('decrypted data', binascii.hexlify(ciphertext))
 
 		sys.stdout.buffer.write(ciphertext)
+		#output += ciphertext
 	elif arguments.mode == 'convert':
 		if arguments.format == 'wif':
 			import base58
@@ -115,5 +120,8 @@ def start(arguments):
 			print(binascii.hexlify(data).decode('utf-8'))
 		elif arguments.format == 'bip39':
 			from Crypto.Protocol.KDF import PBKDF2
-	else:
-		parser.print_help()
+
+	if len(output):
+		sys.stdout.buffer.write(output)
+	#else:
+		#argument_parser.print_help()
