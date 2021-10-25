@@ -59,10 +59,10 @@ def start():
 			currencyObject = copy.copy(currencies_i[int(input_buffer[offset])])
 			offset += 1
 
-			dataSlice = input_buffer[offset:int(offset + currencyObject.size / 2)]
+			dataSlice = input_buffer[offset:int(offset + currencyObject.size)]
 
 			currencyObject.setData(dataSlice)
-			offset += int(currencyObject.size / 2)
+			offset += int(currencyObject.size)
 			
 			end.append(currencyObject)
 

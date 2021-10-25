@@ -1,3 +1,5 @@
+import binascii, sys, struct
+
 class CurrencyType:
 	def __init__(self, symbol, identifier, size):
 		self.symbol = symbol
