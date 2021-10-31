@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import argparse, sys, copy, binascii, struct, crypac.structure
+import sys, copy, binascii, struct, crypac.structure
 
 #verbose = False
 arguments = False
@@ -111,7 +111,6 @@ def start():
 			printe('decrypted data', binascii.hexlify(ciphertext))
 
 		sys.stdout.buffer.write(ciphertext)
-		#output += ciphertext
 	elif arguments.mode == 'convert':
 		if arguments.format == 'wif':
 			import base58
@@ -119,7 +118,13 @@ def start():
 
 			print(binascii.hexlify(data).decode('utf-8'))
 		elif arguments.format == 'bip39':
-			from Crypto.Protocol.KDF import PBKDF2
+			from crypac.bip39 import bip39_to_hex, bip39_to_mnemonic
+
+			if arguments.reverse:
+				for hex in arguments.input:
+					print(bip39_to_mnemonic(hex, arguments.language))
+			else:
+				print(bip39_to_hex(arguments.input, arguments.language).decode('utf-8'))
 
 	if len(output):
 		sys.stdout.buffer.write(output)

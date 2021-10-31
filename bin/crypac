@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import argparse, sys, copy, binascii, struct, crypac
+import argparse, sys, copy, binascii, crypac
 
 parser = argparse.ArgumentParser(description = 'Process some integers.')
 parser.add_argument('--verbose', action='store_true')
@@ -18,8 +18,15 @@ subparser_decrypt.add_argument('--iv-prefix', action='store_true')
 subparser_decrypt.add_argument('key')
 
 subparser_convert = subparsers.add_parser('convert')
-subparser_convert.add_argument('format', choices = ['wif', 'bip39'], help='convert from')
-subparser_convert.add_argument('input')
+subparser_convert.add_argument('--reverse', action='store_true')
+
+subparser_format = subparser_convert.add_subparsers(dest='format')
+
+subparser_wif = subparser_format.add_parser('wif')
+
+subparser_bip39 = subparser_format.add_parser('bip39')
+subparser_bip39.add_argument('--language', default='english')
+subparser_bip39.add_argument('input', nargs='+')
 
 for key, currency in crypac.currencies_s.items():
 	subparser_pack.add_argument('--' + key, action = 'append', nargs = 1, metavar = 'hex{' + str(currency.size) + '}')
