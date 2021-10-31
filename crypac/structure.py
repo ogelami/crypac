@@ -8,7 +8,7 @@ class CurrencyType:
 	
 	def setData(self, data):
 		if type(data) is str:
-			assert len(data) == self.size * 2
+			assert len(data) == self.size * 2, '{0} require a length of {1} got {2}'.format(self.symbol, self.size * 2, len(data))
 
 			self.data = binascii.unhexlify(data)
 		elif type(data) is bytes:
@@ -34,4 +34,5 @@ currencies = [
 	CurrencyType('eth', 0x04, 32),
 	CurrencyType('dot', 0x05, 32),
 	CurrencyType('btcwif', 0x06, 37),
+	CurrencyType('tst', 0x07, 6)
 ]

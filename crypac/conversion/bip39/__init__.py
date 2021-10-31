@@ -2,7 +2,7 @@ import binascii, hashlib
 from pkg_resources import resource_string
 
 def get_word_list(language):
-	word_list = resource_string('crypac.bip39.wordlist', language + '.txt')
+	word_list = resource_string('crypac.conversion.bip39.wordlist', language + '.txt')
 	word_list = word_list.decode('utf-8').strip().split("\n")
 	
 	return word_list
