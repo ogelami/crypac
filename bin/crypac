@@ -22,7 +22,8 @@ subparser_convert.add_argument('--reverse', action='store_true')
 
 subparser_format = subparser_convert.add_subparsers(dest='format')
 
-subparser_wif = subparser_format.add_parser('wif')
+subparser_b58 = subparser_format.add_parser('base58')
+subparser_b58.add_argument('input', nargs='+')
 
 subparser_bip39 = subparser_format.add_parser('bip39')
 subparser_bip39.add_argument('--language', default='english')

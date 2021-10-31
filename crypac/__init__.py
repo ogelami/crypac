@@ -112,11 +112,15 @@ def start():
 
 		sys.stdout.buffer.write(ciphertext)
 	elif arguments.mode == 'convert':
-		if arguments.format == 'wif':
-			import base58
-			data = base58.b58decode(arguments.input)[1:33]
+		if arguments.format == 'base58':
+			from crypac.base58 import b58_to_hex, hex_to_b58
 
-			print(binascii.hexlify(data).decode('utf-8'))
+			for fragment in arguments.input:
+				if arguments.reverse:
+					print(hex_to_b58(fragment))
+				else:
+					print(b58_to_hex(fragment))
+			
 		elif arguments.format == 'bip39':
 			from crypac.bip39 import bip39_to_hex, bip39_to_mnemonic
 

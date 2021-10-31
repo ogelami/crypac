@@ -33,4 +33,5 @@ currencies = [
 	CurrencyType('btc', 0x03, 32),
 	CurrencyType('eth', 0x04, 32),
 	CurrencyType('dot', 0x05, 32),
+	CurrencyType('btcwif', 0x06, 37),
 ]
