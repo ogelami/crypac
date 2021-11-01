@@ -2,16 +2,24 @@
 
 Crypac is a tool for packing and encrypting private cryptocurrency assets like private keys and seeds
 
-Installation
-============
-python3 setup.py install
+## Table of contents
+1. [Installation](#installation)
+2. [Example usage](#usage)
+    1. [Packing, encrypting, decrypting, unpacking](#example1)
+    2. [Preparing and packing wif(base58)](#example2)
+    3. [Preparing and packing bip39(mnemonic seed phrase)](#example3)
+3. [Help](#help)
 
-Example Usage
-=====
+## Installation <a name="installation" />
 ```
-git clone git@github.com:ogelami/crypac.git
-python -m pip install .
+python3 setup.py install
+```
 
+## Usage <a name="usage" />
+Below are a few examples on how to use crypac
+
+### Packing, encrypting, decrypting, unpacking <a name="example1" />
+```
 crypac pack \
 --dot 4a404cb38c0c1929213c4a33d8ac564ec5c04ade8beb8dd18c5c11fdaf5afc0f \
 --eth 64ec5c04ade8beb8dd18c5c11fdaf5afc0f39363bf6a6feefae6a1860d2e61c1 \
@@ -65,8 +73,46 @@ DOT 4a404cb38c0c1929213c4a33d8ac564ec5c04ade8beb8dd18c5c11fdaf5afc0f
 DOT 5d70c9715012cd3ced029c0b6381dd6a284cce0f3f83d4e0a22c17bc843e9dd5
 ```
 
-Help
-====
+### Preparing and packing wif(base58) <a name="example2" />
+
+```
+crypac convert base58 5JquJyTAucte3F25QGMyovp5VSzzhPmuVqGHg67igTJikcFr3Je
+80875d8f49faf8df4568b38220458d89f3a0cba1e0c5a665d27112411771d711e8aad53fef
+
+crypac pack --btc 80875d8f49faf8df4568b38220458d89f3a0cba1e0c5a665d27112411771d711e8aad53fef > pac
+
+xxd pac 
+00000000: 0325 8087 5d8f 49fa f8df 4568 b382 2045  .%..].I...Eh.. E
+00000010: 8d89 f3a0 cba1 e0c5 a665 d271 1241 1771  .........e.q.A.q
+00000020: d711 e8aa d53f ef                        .....?.
+
+cat pac | crypac unpack
+BTC 80875d8f49faf8df4568b38220458d89f3a0cba1e0c5a665d27112411771d711e8aad53fef
+
+crypac convert --reverse base58 80875d8f49faf8df4568b38220458d89f3a0cba1e0c5a665d27112411771d711e8aad53fef
+5JquJyTAucte3F25QGMyovp5VSzzhPmuVqGHg67igTJikcFr3Je
+```
+
+### Preparing and packing bip39(mnemonic seed phrase) <a name="example3" />
+
+```
+crypac convert bip39 rug manage involve element need city iron churn jacket neutral master flock
+bd10ddd8a3d93c52dd914677129e22ac
+
+crypac pack --sol bd10ddd8a3d93c52dd914677129e22ac > pac
+
+xxd pac
+00000000: 0210 bd10 ddd8 a3d9 3c52 dd91 4677 129e  ........<R..Fw..
+00000010: 22ac                                     ".
+
+cat pac | crypac unpack
+SOL bd10ddd8a3d93c52dd914677129e22ac
+
+crypac convert --reverse bip39 bd10ddd8a3d93c52dd914677129e22ac
+rug manage involve element need city iron churn jacket neutral master flock
+```
+
+## Help <a name="help" />
 ```
 usage: crypac [-h] [--verbose] {pack,unpack,encrypt,decrypt,convert} ...
 
@@ -80,26 +126,23 @@ optional arguments:
   --verbose
 ```
 
-Pack
-====
+## Pack
 ```
-usage: crypac pack [-h] [--xdg hex{32}] [--sol hex{32}] [--btc hex{32}] [--eth hex{32}] [--dot hex{32}]
+usage: crypac pack [-h] [--xdg hex] [--sol hex] [--btc hex] [--eth hex] [--dot hex]
 
 optional arguments:
-  -h, --help     show this help message and exit
-  --xdg hex{32}
-  --sol hex{32}
-  --btc hex{32}
-  --eth hex{32}
-  --dot hex{32}
+  -h, --help  show this help message and exit
+  --xdg hex
+  --sol hex
+  --btc hex
+  --eth hex
+  --dot hex
 ```
 
-Unpack
-======
+## Unpack
 unpacks data from stdin
 
-Encrypt
-=======
+## Encrypt
 Encrypts data from stdin using AES-CBC
 ```
 usage: crypac encrypt [-h] [--generate-iv] key
@@ -112,8 +155,7 @@ optional arguments:
   --generate-iv
 ```
 
-Decrypt
-=======
+## Decrypt
 ```
 usage: crypac decrypt [-h] [--iv-prefix] key
 
@@ -125,16 +167,15 @@ optional arguments:
   --iv-prefix
 ```
 
-Convert
-=======
+## Convert
 Converting bip39 mnemonics and wif to hex for packing
 ```
-usage: crypac convert [-h] {wif,bip39} input
+usage: crypac convert [-h] [--reverse] {base58,bip39} ...
 
 positional arguments:
-  {wif,bip39}  convert from
-  input
+  {base58,bip39}
 
 optional arguments:
-  -h, --help   show this help message and exit
+  -h, --help      show this help message and exit
+  --reverse
 ```
