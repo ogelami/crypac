@@ -32,7 +32,7 @@ subparser_bip39.add_argument('--language', default='english')
 subparser_bip39.add_argument('input', nargs='+')
 
 for key, currency in crypac.currencies_s.items():
-	subparser_pack.add_argument('--' + key, action = 'append', nargs = 1, metavar = 'hex{' + str(currency.size) + '}')
+	subparser_pack.add_argument('--' + key, action = 'append', nargs = 1, metavar = 'hex')
 
 arguments = parser.parse_args()
 

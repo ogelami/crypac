@@ -5,14 +5,14 @@ def pack(arguments):
 	end = []
 
 	for currency_key in currencies_s.keys():
-		dataList = getattr(arguments, currency_key)
+		data_list = getattr(arguments, currency_key)
 
-		if not dataList:
+		if not data_list:
 			continue
 
-		for dataSet in dataList:
+		for data_set in data_list:
 			currency = copy.copy(currencies_s[currency_key])
-			currency.setData(dataSet[0])
+			currency.setData(data_set[0])
 
 			end.append(currency)
 
@@ -26,25 +26,28 @@ def unpack():
 	input_buffer = sys.stdin.buffer.read()
 
 	while offset < len(input_buffer):
-		currencyOffset = int(input_buffer[offset])
+		currency_offset = int(input_buffer[offset])
 
 		# if null space
-		if currencyOffset == 0x00:
+		if currency_offset == 0x00:
 			offset += 1
 			continue
 
-		if currencyOffset not in currencies_i:
+		if currency_offset not in currencies_i:
 			break
 
-		currencyObject = copy.copy(currencies_i[int(input_buffer[offset])])
+		currency_object = copy.copy(currencies_i[int(input_buffer[offset])])
 		offset += 1
 
-		dataSlice = input_buffer[offset:int(offset + currencyObject.size)]
+		read_size = int(input_buffer[offset])
+		offset += 1
+		data_slice = input_buffer[offset:int(offset + read_size)]
 
-		currencyObject.setData(dataSlice)
-		offset += int(currencyObject.size)
+		offset += len(data_slice)
 
-		end.append(currencyObject)
+		currency_object.setData(data_slice)
+
+		end.append(currency_object)
 
 	for currency in end:
 		currency.dump(True)

@@ -1,18 +1,17 @@
 import binascii, sys, struct
 
 class CurrencyType:
-	def __init__(self, symbol, identifier, size):
+	def __init__(self, symbol, identifier):
 		self.symbol = symbol
 		self.identifier = identifier
-		self.size = size
 	
 	def setData(self, data):
 		if type(data) is str:
-			assert len(data) == self.size * 2, '{0} require a length of {1} got {2}'.format(self.symbol, self.size * 2, len(data))
+			#assert len(data) == self.size * 2, '{0} require a length of {1} got {2}'.format(self.symbol, self.size * 2, len(data))
 
 			self.data = binascii.unhexlify(data)
 		elif type(data) is bytes:
-			assert len(data) == self.size
+			#assert len(data) == self.size
 
 			self.data = data
 	
@@ -22,17 +21,16 @@ class CurrencyType:
 
 		else:
 			output = struct.pack('B', self.identifier)
+			output += struct.pack('B', len(self.data))
 			output += self.data
 
 			sys.stdout.buffer.write(output)
 
 # identifier 0x00 reserved for null-byte
 currencies = [
-	CurrencyType('xdg', 0x01, 32),
-	CurrencyType('sol', 0x02, 32),
-	CurrencyType('btc', 0x03, 32),
-	CurrencyType('eth', 0x04, 32),
-	CurrencyType('dot', 0x05, 32),
-	CurrencyType('btcwif', 0x06, 37),
-	CurrencyType('tst', 0x07, 6)
+	CurrencyType('xdg', 0x01),
+	CurrencyType('sol', 0x02),
+	CurrencyType('btc', 0x03),
+	CurrencyType('eth', 0x04),
+	CurrencyType('dot', 0x05)
 ]
