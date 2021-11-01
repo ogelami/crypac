@@ -40,6 +40,8 @@ def decrypt(data, password, iv_prefix = False):
 	if type(data) is BufferedReader:
 		data = data.read()
 
+	assert len(data) % 16 == 0, 'Wrong length of data {0} should maybe be {1} or {2}'.format(len(data), len(data) - len(data) % 16, 16 + len(data) - len(data) % 16)
+
 	if iv_prefix:
 		iv = data[0:16]
 		data = data[16:]
