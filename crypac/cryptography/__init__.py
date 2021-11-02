@@ -3,14 +3,15 @@ from Crypto.Hash import MD5
 from Crypto import Random
 from Crypto.Util.Padding import pad
 
-import binascii,sys
+import binascii, sys
 from io import BufferedReader
+from crypac import logger
 
 def hashPassword(key):
 	md5 = MD5.new()
 	md5.update(key.encode('utf-8'))
 
-	return binascii.unhexlify(md5.hexdigest())
+	return md5.digest()
 
 def encrypt(data, password, generate_iv = False):
 	key = hashPassword(password)
@@ -27,7 +28,9 @@ def encrypt(data, password, generate_iv = False):
 	else:
 		iv = key
 
-	#printe('choosen iv', binascii.hexlify(iv))
+	logger.info('KEY {0}'.format(binascii.hexlify(key).decode('utf-8')))
+	logger.info('IV  {0}'.format(binascii.hexlify(iv).decode('utf-8')))
+
 	aes_object = AES.new(key, AES.MODE_CBC, iv)
 
 	data = pad(data, AES.block_size)
@@ -48,12 +51,6 @@ def decrypt(data, password, iv_prefix = False):
 	else:
 		iv = key
 
-	#printe('choosen iv', binascii.hexlify(iv))
-	#printe('encrypted data', binascii.hexlify(data[16:]))
-	
 	aes_object = AES.new(key, AES.MODE_CBC, iv)
 
 	return aes_object.decrypt(data)
-	#printe('decrypted data', binascii.hexlify(ciphertext))
-
-#sys.stdout.buffer.write(ciphertext)

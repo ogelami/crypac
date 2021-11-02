@@ -1,24 +1,17 @@
 #!/usr/bin/env python3
 
-import sys, copy, binascii, struct, crypac.structure
+import sys, copy, binascii, struct, logging, crypac.structure
 
-#verbose = False
 arguments = False
-argument_parser = False
 
-def printe(*text):
-	global arguments
-
-	if arguments.verbose:
-		print(*text, file = sys.stderr)
+logger = logging.getLogger('crypac')
 
 currencies_s = { x.symbol : x for x in crypac.structure.currencies }
 currencies_i = { x.identifier : x for x in crypac.structure.currencies }
 
 def start():
-	global arguments, argument_parser
+	global arguments
 
-	verbose = arguments.verbose
 	output = bytearray()
 
 	if arguments.mode == 'pack':
@@ -62,5 +55,3 @@ def start():
 
 	if len(output):
 		sys.stdout.buffer.write(output)
-	#else:
-		#argument_parser.print_help()
