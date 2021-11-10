@@ -7,12 +7,8 @@ class CurrencyType:
 	
 	def setData(self, data):
 		if type(data) is str:
-			#assert len(data) == self.size * 2, '{0} require a length of {1} got {2}'.format(self.symbol, self.size * 2, len(data))
-
 			self.data = binascii.unhexlify(data)
 		elif type(data) is bytes:
-			#assert len(data) == self.size
-
 			self.data = data
 	
 	def dump(self, pretty = False):

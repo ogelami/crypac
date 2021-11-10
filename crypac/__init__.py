@@ -27,7 +27,10 @@ def start():
 	elif arguments.mode == 'encrypt':
 		from crypac.cryptography import encrypt
 
-		sys.stdout.buffer.write(encrypt(arguments.data, arguments.key))
+		data, iv = encrypt(arguments.data, arguments.key)
+
+		sys.stdout.buffer.write(iv)
+		sys.stdout.buffer.write(data)
 
 	elif arguments.mode == 'decrypt':
 		from crypac.cryptography import decrypt

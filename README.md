@@ -114,7 +114,7 @@ rug manage involve element need city iron churn jacket neutral master flock
 
 ## Help <a name="help" />
 ```
-usage: crypac [-h] [--verbose] {pack,unpack,encrypt,decrypt,convert} ...
+usage: crypac [-h] [--verbose {DEBUG,INFO,WARNING,ERROR}] {pack,unpack,encrypt,decrypt,convert} ...
 
 Process some integers.
 
@@ -123,7 +123,7 @@ positional arguments:
 
 optional arguments:
   -h, --help            show this help message and exit
-  --verbose
+  --verbose {DEBUG,INFO,WARNING,ERROR}
 ```
 
 ## Pack
@@ -141,31 +141,6 @@ optional arguments:
 
 ## Unpack
 unpacks data from stdin
-
-## Encrypt
-Encrypts data from stdin using AES-CBC
-```
-usage: crypac encrypt [-h] [--generate-iv] key
-
-positional arguments:
-  key
-
-optional arguments:
-  -h, --help     show this help message and exit
-  --generate-iv
-```
-
-## Decrypt
-```
-usage: crypac decrypt [-h] [--iv-prefix] key
-
-positional arguments:
-  key
-
-optional arguments:
-  -h, --help   show this help message and exit
-  --iv-prefix
-```
 
 ## Convert
 Converting bip39 mnemonics and wif to hex for packing

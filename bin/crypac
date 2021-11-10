@@ -10,14 +10,12 @@ subparser_pack = subparsers.add_parser('pack')
 subparsers.add_parser('unpack')
 
 subparser_encrypt = subparsers.add_parser('encrypt')
-subparser_encrypt.add_argument('key')
+subparser_encrypt.add_argument('--key', default=False)
 subparser_encrypt.add_argument('--data', default=sys.stdin.buffer)
-subparser_encrypt.add_argument('--generate-iv', action='store_true')
 
 subparser_decrypt = subparsers.add_parser('decrypt')
 subparser_decrypt.add_argument('--data', default=sys.stdin.buffer)
-subparser_decrypt.add_argument('--iv-prefix', action='store_true')
-subparser_decrypt.add_argument('key')
+subparser_decrypt.add_argument('--key', default=False)
 
 subparser_convert = subparsers.add_parser('convert')
 subparser_convert.add_argument('--reverse', action='store_true')
