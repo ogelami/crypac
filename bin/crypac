@@ -3,7 +3,7 @@
 import argparse, sys, copy, binascii, logging, crypac
 
 parser = argparse.ArgumentParser(description = 'Process some integers.')
-parser.add_argument('--verbose', default='ERROR', choices=['DEBUG', 'INFO', 'WARNING', 'ERROR'])
+parser.add_argument('--verbose', action='store_true')
 subparsers = parser.add_subparsers(dest='mode', required=True)
 
 subparser_pack = subparsers.add_parser('pack')
@@ -34,7 +34,9 @@ for key, currency in crypac.currencies_s.items():
 
 arguments = parser.parse_args()
 
-logging.basicConfig(stream=sys.stderr, level=getattr(logging, arguments.verbose), format='%(levelname)-8s%(funcName)s: %(message)s', datefmt='%H:%M:%S')
+verbosity = logging.DEBUG if arguments.verbose else logging.ERROR
+
+logging.basicConfig(stream=sys.stderr, level=verbosity, format='%(levelname)-8s%(funcName)s: %(message)s', datefmt='%H:%M:%S')
 
 crypac.arguments = arguments
 crypac.argument_parser = parser
