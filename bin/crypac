@@ -23,14 +23,14 @@ subparser_convert.add_argument('--reverse', action='store_true')
 subparser_format = subparser_convert.add_subparsers(dest='format', required=True)
 
 subparser_b58 = subparser_format.add_parser('base58')
-subparser_b58.add_argument('input', nargs='+')
+subparser_b58.add_argument('--input', default=False)
 
 subparser_bip39 = subparser_format.add_parser('bip39')
 subparser_bip39.add_argument('--language', default='english')
-subparser_bip39.add_argument('input', nargs='+')
+subparser_bip39.add_argument('--input', default=False, nargs='+')
 
 for key, currency in crypac.currencies_s.items():
-	subparser_pack.add_argument('--' + key, action = 'append', nargs = 1, metavar = 'hex')
+	subparser_pack.add_argument('--' + key, action = 'append', nargs='?', metavar = 'hex')
 
 arguments = parser.parse_args()
 

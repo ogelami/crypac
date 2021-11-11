@@ -1,6 +1,14 @@
 import copy, sys
 from crypac import currencies_s,  currencies_i
 
+def promptKey(keyType):
+	from getpass import getpass
+
+	key = getpass('Enter {0} key:'.format(keyType))
+	assert key == getpass('Re-type {} Key:'.format(keyType))
+
+	return key
+
 def pack(arguments):
 	end = []
 
@@ -11,8 +19,11 @@ def pack(arguments):
 			continue
 
 		for data_set in data_list:
+			if not data_set:
+				data_set = promptKey(currency_key)
+
 			currency = copy.copy(currencies_s[currency_key])
-			currency.setData(data_set[0])
+			currency.setData(data_set)
 
 			end.append(currency)
 

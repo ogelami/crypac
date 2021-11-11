@@ -41,19 +41,27 @@ def start():
 		if arguments.format == 'base58':
 			from crypac.conversion.base58 import b58_to_hex, hex_to_b58
 
-			for fragment in arguments.input:
-				if arguments.reverse:
-					print(hex_to_b58(fragment))
-				else:
-					print(b58_to_hex(fragment))
+			if not arguments.input:
+				arguments.input = input('Input: ')
+
+			if arguments.reverse:
+				print(hex_to_b58(arguments.input))
+			else:
+				print(b58_to_hex(arguments.input))
 			
 		elif arguments.format == 'bip39':
 			from crypac.conversion.bip39 import bip39_to_hex, bip39_to_mnemonic
 
 			if arguments.reverse:
+				if not arguments.input:
+					arguments.input = [input('Input: ')]
+
 				for hex in arguments.input:
 					print(bip39_to_mnemonic(hex, arguments.language))
 			else:
+				if not arguments.input:
+					arguments.input = input('Input: ').split()
+
 				print(bip39_to_hex(arguments.input, arguments.language).decode('utf-8'))
 
 	if len(output):
