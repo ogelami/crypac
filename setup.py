@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 import os, sys
 
 def read(fname):
@@ -17,5 +17,5 @@ setup(name='crypac',
   scripts=['bin/crypac'],
 	install_requires=['base58', 'pycryptodome'],
   license='MIT',
-  packages=['crypac'],
+  packages=find_packages(),
   zip_safe=False)
