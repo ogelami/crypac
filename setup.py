@@ -18,4 +18,6 @@ setup(name='crypac',
 	install_requires=['base58', 'pycryptodome'],
   license='MIT',
   packages=find_packages(),
-  zip_safe=False)
+  package_data={'crypac.conversion.bip39.wordlist': ['*.txt']},
+  zip_safe=True
+)
