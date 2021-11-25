@@ -1,7 +1,7 @@
 from Crypto.Cipher import AES
 from Crypto.Hash import SHA256
 from Crypto import Random
-from Crypto.Util.Padding import pad
+from Crypto.Util.Padding import pad, unpad
 
 import binascii, sys
 from io import BufferedReader
@@ -61,4 +61,6 @@ def decrypt(data, password):
 
 	aes_object = AES.new(key, AES.MODE_CBC, iv)
 
-	return aes_object.decrypt(data)
+	decrypted_data = aes_object.decrypt(data)
+
+	return unpad(decrypted_data, AES.block_size)
